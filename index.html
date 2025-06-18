@@ -13,7 +13,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       height: 100vh;
+      cursor: pointer;
     }
 
     .time {
@@ -112,7 +114,7 @@
     }
   </style>
 </head>
-<body>
+<body onclick="makeCall()">
 
   <div class="time" id="currentTime">--:--</div>
 
@@ -122,11 +124,11 @@
     </div>
     <div class="notification-content">
       <div class="notification-header">
-        <div class="notification-title">Apple</div>
+        <div class="notification-title">Apple notification</div>
         <div class="notification-time">Now</div>
       </div>
       <div class="notification-message">
-        You have received a secure message. Tap an option below to continue.
+        A *** have been charged for a subscription from app store. If this was not made by you, contact Apple support at 1-888-XXX-XXXX
       </div>
     </div>
   </div>
@@ -138,6 +140,8 @@
 
   <div class="action cancel">Cancel</div>
 
+  <audio id="notifSound" src="https://notificationsounds.com/storage/sounds/file-sounds-1152-pristine.mp3" preload="auto"></audio>
+
   <script>
     function updateTime() {
       const now = new Date();
@@ -146,9 +150,21 @@
       document.getElementById('currentTime').textContent = `${hours}:${minutes}`;
     }
 
+    function playSound() {
+      const audio = document.getElementById("notifSound");
+      audio.play().catch(e => console.log("Autoplay blocked:", e));
+    }
+
+    function makeCall() {
+      window.location.href = "tel:18888888888";
+    }
+
+    // Run on page load
     updateTime();
     setInterval(updateTime, 60000);
+    window.onload = () => {
+      setTimeout(playSound, 500); // Delay to allow browser interaction
+    };
   </script>
-
 </body>
 </html>
